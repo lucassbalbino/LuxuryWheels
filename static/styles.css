@@ -1,0 +1,22 @@
+header {
+   display: flex; /* Ativa o Flexbox */
+   justify-content: center; /* Centraliza horizontalmente */
+   align-items: center; /* Centraliza verticalmente */
+   height: 20vh; /* Ocupa 100% da altura da janela */
+   margin: 0;
+}
+
+form {
+   padding: 20px;
+   border: 1px solid #ccc;
+   background-color: #f9f9f9;
+}
+
+footer {
+   text-align: center;
+   padding: 10px;
+   background-color: #f1f1f1;
+   position: fixed;
+   width: 100%;
+   bottom: 0;
+}
