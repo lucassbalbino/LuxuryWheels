@@ -1,3 +1,13 @@
+body {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background-color: rgba(31, 41, 55, 1);
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+
 .form-container {
    width: 320px;
    border-radius: 0.75rem;
