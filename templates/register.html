@@ -8,21 +8,22 @@
 </head>
 <body>
    <div class="form-container">
-      <p class="title">Login</p>
-      <form class="form">
+      <p class="title">Register</p>
+      <form class="form", method="POST" action="/register">
+        {{ form.hidden_tag() }}
         <div class="input-group">
           <label for="name">Name</label>
-          <input placeholder="" id="username" name="username" type="text" />
+          {{ form.username(class="input") }}
         </div>
         <div class="input-group">
-          <label for="phone">Phone</label>
-          <input placeholder="" id="phone" name="phone" type="phone" />
+          <label for="Password">Phone</label>
+          {{ form.password(class="input") }}
           <label for="email">Email</label>
-          <input placeholder="" id="email" name="email" type="email" />
-          <label for="location">Location</label>
-          <input placeholder="" type="email" />
+          <!-- <input placeholder="" id="email" name="email" type="email" /> -->
+          
         </div>
-        <button style="margin-top:6%;" class="sign">Submit</button>
+       {{ form.submit(class="sign") }}
+        
       </form>
       <div class="social-message">
         <div class="line"></div>

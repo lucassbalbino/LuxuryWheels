@@ -8,19 +8,21 @@
 </head>
 <div class="form-container">
 	<p class="title">Login</p>
-	<form class="form">
+	<form class="form" method="POST" action="/">
+      {{ form.hidden_tag() }}
 		<div class="input-group">
 			<label for="username">Username</label>
-			<input type="text" name="username" id="username" placeholder="">
+         {{ form.username(class="input") }}
+		
 		</div>
 		<div class="input-group">
 			<label for="password">Password</label>
-			<input type="password" name="password" id="password" placeholder="">
-			<div class="forgot">
-				<a rel="noopener noreferrer" href="#">Forgot Password ?</a>
-			</div>
+         {{ form.password(class="input") }}
+			<br><br>
 		</div>
-		<button class="sign">Sign in</button>
+      <!-- <button type="submit" class="sign">Sign in</button> -->
+      {{ form.submit(class="sign") }}
+		
 	</form>
 	<div class="social-message">
 		<div class="line"></div>
