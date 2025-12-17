@@ -7,18 +7,24 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+from rotas.veiculos import veiculos_bp
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'database', 'database.db')}"
 app.config['SECRET_KEY'] = 'LuxuryWheelsSecretKey'
+
 db = SQLAlchemy(app)
+
 bcrypt = Bcrypt(app)
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+app.register_blueprint(veiculos_bp)
 
 
 @login_manager.user_loader
@@ -33,17 +39,14 @@ class User(db.Model, UserMixin):
 
 
 class RegisterForm(FlaskForm):
-   username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Username'})
-   password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Password'})
+   username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': ''})
+   password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': ''})
    submit = SubmitField('Register')
 
    def validate_username(self, username):
        existing_username = User.query.filter_by(username=username.data).first()
        if existing_username:
            raise ValidationError("That username already exists. Please choose a different one.")
-
-
-
 
 
 
@@ -55,7 +58,12 @@ class LoginForm(FlaskForm):
 
 
 
-
+class Veiculos(db.Model):
+   id = db.Column(db.Integer, primary_key=True)
+   marca = db.Column(db.String(50), nullable=False)
+   modelo = db.Column(db.String(50), nullable=False)
+   ano = db.Column(db.Integer, nullable=False)
+   preco = db.Column(db.Float, nullable=False)
 
 
 @app.route('/', methods=['GET', 'POST'])
