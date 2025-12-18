@@ -20,7 +20,14 @@ def add_veiculo():
             marca=form.marca.data,
             modelo=form.modelo.data,
             ano=form.ano.data,
-            preco=form.preco.data
+            diária=form.diária.data,
+            tipo=form.tipo.data,
+            ultima_inspeção=form.ultima_inspeção.data,
+            proxima_inspeção=form.proxima_inspeção.data,
+            manuntenção=form.manutenção.data,
+            legalização=form.legalização.data,
+
+            alugado=form.alugado.data
         )
         db.session.add(new_veiculo)
         db.session.commit()
