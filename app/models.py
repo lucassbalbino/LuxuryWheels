@@ -1,7 +1,7 @@
-from database import db
+from app.database import db
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField
 from wtforms.validators import InputRequired, Length, ValidationError
 
 class User(db.Model, UserMixin):
@@ -34,3 +34,12 @@ class Veiculos(db.Model):
    modelo = db.Column(db.String(50), nullable=False)
    ano = db.Column(db.Integer, nullable=False)
    preco = db.Column(db.Float, nullable=False)
+
+
+class add_Veiculo_Form(FlaskForm):
+   marca = StringField('Marca', validators=[InputRequired(message="Marca é obrigatória"), Length(max=50)])
+   modelo = StringField('Modelo', validators=[InputRequired(message="Modelo é obrigatório"), Length(max=50)])
+   ano = IntegerField('Ano', validators=[InputRequired(message="Ano é obrigatório")])
+   preco = FloatField('Preço', validators=[InputRequired(message="Preço é obrigatório")])
+   submit = SubmitField('Adicionar Veículo')
+

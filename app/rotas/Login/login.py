@@ -1,9 +1,14 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from flask_login import login_user
-from app import app, db, Veiculos
-from app.models.models import RegisterForm, LoginForm, User, bcrypt
+from flask_login import login_user, logout_user
+from app.database import db, bcrypt, login_manager
+from app.models import RegisterForm, LoginForm, User
+
 
 login_bp = Blueprint('login', __name__, template_folder='templates')
+
+@login_manager.user_loader
+def load_user(user_id):
+   return User.query.get(int(user_id))
 
 @login_bp.route('/', methods=['GET', 'POST'])
 def login():
@@ -21,8 +26,6 @@ def login():
 @login_bp.route('/register', methods=['GET', 'POST'])
 def  register():
    form = RegisterForm()
-    
-
 
    if request.method == 'POST': 
          hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -32,3 +35,9 @@ def  register():
          return redirect(url_for('login'))
 
    return render_template('register.html', form=form)
+
+
+@login_bp.route('/logout', methods=['GET', 'POST'])
+def logout():
+   logout_user()
+   return redirect(url_for('login'))

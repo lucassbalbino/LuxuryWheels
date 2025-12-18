@@ -6,6 +6,22 @@
    <title>DISPLAY VEICULOS</title>
 </head>
 <body>
-   
+   <table border="1">
+       <tr>
+           <th>ID</th>
+           <th>Marca</th>
+           <th>Modelo</th>
+           <th>Ano</th>
+           <th>Placa</th>
+       </tr>
+       {% for v in veiculo %}
+       <tr>
+           <td>{{ v.id }}</td>
+           <td>{{ v.marca }}</td>
+           <td>{{ v.modelo }}</td>
+           <td>{{ v.ano }}</td>
+           <td>{{ v.placa }}</td>
+       </tr>
+       {% endfor %}
 </body>
 </html>
