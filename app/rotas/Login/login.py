@@ -14,6 +14,10 @@ def load_user(user_id):
 def load_admin(admin_id):
    return Admin.query.get(int(admin_id))
 
+@login_bp.route('/', methods=['GET', 'POST'])
+def login_choice():
+   return render_template('login_choice.html')
+
 @login_bp.route('/login_admin', methods=['GET', 'POST'])
 def login_admin():
    form = LoginFormAdmin()
@@ -23,11 +27,11 @@ def login_admin():
            login_user(user)
            return redirect('dashboards')
 
-   return render_template('login.html', form=form)
+   return render_template('login_admin.html', form=form)
 
 
-@login_bp.route('/login_client', methods=['GET', 'POST'])
-def login_client():
+@login_bp.route('/login_cliente', methods=['GET', 'POST'])
+def login_cliente():
    form = LoginFormClient()
    if form.validate_on_submit():
        user = Client.query.filter_by(username=form.username.data).first()
@@ -35,10 +39,10 @@ def login_client():
            login_user(user)
            return redirect('dashboards')
 
-   return render_template('login_client.html', form=form)
+   return render_template('login_cliente.html', form=form)
 
 
 @login_bp.route('/logout', methods=['GET', 'POST'])
 def logout():
    logout_user()
-   return redirect(url_for('login'))
+   return redirect(url_for('register.register_choice'))

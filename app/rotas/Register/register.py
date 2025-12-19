@@ -6,7 +6,7 @@ register_bp = Blueprint('register', __name__, template_folder='templates')
 
 
 
-@register_bp.route('/', methods=['GET', 'POST'])
+@register_bp.route('/register_choice', methods=['GET', 'POST'])
 def register_choice():
    return render_template('register_choice.html')
 
@@ -20,7 +20,7 @@ def  register_cliente():
          new_user = Client(username=form.username.data, password=hashed_password)
          db.session.add(new_user)
          db.session.commit()
-         return redirect(url_for('login'))
+         return redirect(url_for('login.login_cliente'))
 
    return render_template('register_cliente.html', form=form)
 
@@ -35,6 +35,6 @@ def register_admin():
          new_admin = Admin(company_name=form.company_name.data, NIPC=form.nipc.data, password=hashed_password)
          db.session.add(new_admin)
          db.session.commit()
-         return redirect(url_for('login'))
+         return redirect(url_for('login.login_admin'))
 
    return render_template('register_admin.html', form=form)

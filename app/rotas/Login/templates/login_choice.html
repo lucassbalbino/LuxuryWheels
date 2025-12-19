@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <div class="form-container">
+      <p class="title">Login Choice</p>
+      <div class="button-group">
+         <a href="{{ url_for('login.login_admin') }}"><button class="button">Login as Admin</button></a>
+         <a href="{{ url_for('login.login_cliente') }}"><button class="button">Login as Client</button></a>
+      </div>
+</body>
+</html>

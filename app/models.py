@@ -33,7 +33,7 @@ class RegisterFormAdmin(FlaskForm):
    company_name = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Company Name'})
    password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Password'})
    nipc = StringField(validators=[InputRequired(), Length(min=9, max=9)], render_kw={'placeholder': 'NIPC'})
-   email = StringField(validators=[InputRequired(), Length(min=4, max=50)], render_kw={'placeholder': 'Email'})
+
    submit = SubmitField('Register')
 
    def validate_nipc(self, nipc):
@@ -43,13 +43,13 @@ class RegisterFormAdmin(FlaskForm):
 
 
 
-class LoginFormAdmin(FlaskForm):
+class LoginFormClient(FlaskForm):
    username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Username'})
    password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Password'})
    submit = SubmitField('Login')
 
 
-class LoginFormClient(FlaskForm):
+class LoginFormAdmin(FlaskForm):
    nipc = StringField(validators=[InputRequired(), Length(min=9, max=9)], render_kw={'placeholder': 'Username'})
    password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Password'})
    submit = SubmitField('Login')
