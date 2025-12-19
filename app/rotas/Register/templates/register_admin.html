@@ -6,6 +6,26 @@
    <title>Document</title>
 </head>
 <body>
-   
+   <form class="form", method="POST" action="{{ url_for('register.register_admin') }}">
+      {{ form.hidden_tag() }}
+      <div class="input-group">
+         <label for="company_name">Company</label>
+         {{ form.company_name(class="input") }}
+      </div>
+      <div class="input-group">
+         <label for="email">Email</label>
+         {{ form.email(class="input") }}
+      </div>
+      <div class="input-group">
+         <label for="nipc">NIPC</label>
+         {{ form.nipc(class="input") }}
+      </div>
+      <div class="input-group">
+         <label for="password">Password</label>
+         {{ form.password(class="input") }}
+      </div>
+      <div class="button-group">
+         {{ form.submit(class="sign") }}
+      </div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-from app.database import db, bcrypt, login_manager
+from app.database import db, bcrypt, admin_login_manager, client_login_manager
 from app.models import RegisterFormAdmin, RegisterFormClient, Client, Admin
 from flask import Blueprint, render_template, redirect, url_for, request
 
@@ -12,7 +12,7 @@ def register_choice():
 
 
 @register_bp.route('/register_cliente', methods=['GET', 'POST'])
-def  register():
+def  register_cliente():
    form = RegisterFormClient()
 
    if request.method == 'POST': 
@@ -22,7 +22,7 @@ def  register():
          db.session.commit()
          return redirect(url_for('login'))
 
-   return render_template('register.html', form=form)
+   return render_template('register_cliente.html', form=form)
 
 
 

@@ -1,16 +1,16 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_user, logout_user
-from app.database import db, bcrypt, login_manager
+from app.database import db, bcrypt, admin_login_manager, client_login_manager
 from app.models import LoginFormClient, LoginFormAdmin, Client, Admin
 
 
 login_bp = Blueprint('login', __name__, template_folder='templates')
 
-@login_manager.client_loader
+@client_login_manager.user_loader
 def load_user(user_id):
    return Client.query.get(int(user_id))
 
-@login_manager.admin_loader
+@admin_login_manager.user_loader
 def load_admin(admin_id):
    return Admin.query.get(int(admin_id))
 

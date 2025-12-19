@@ -30,9 +30,10 @@ class RegisterFormClient(FlaskForm):
          raise ValidationError("That username already exists. Please choose a different one.")
 
 class RegisterFormAdmin(FlaskForm):
-   company_name = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Username'})
+   company_name = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Company Name'})
    password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Password'})
    nipc = StringField(validators=[InputRequired(), Length(min=9, max=9)], render_kw={'placeholder': 'NIPC'})
+   email = StringField(validators=[InputRequired(), Length(min=4, max=50)], render_kw={'placeholder': 'Email'})
    submit = SubmitField('Register')
 
    def validate_nipc(self, nipc):
@@ -49,7 +50,7 @@ class LoginFormAdmin(FlaskForm):
 
 
 class LoginFormClient(FlaskForm):
-   nipc = StringField(validators=[InputRequired(), Length(min=9, max=9)], render_kw={'placeholder': 'nipc'})
+   nipc = StringField(validators=[InputRequired(), Length(min=9, max=9)], render_kw={'placeholder': 'Username'})
    password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Password'})
    submit = SubmitField('Login')
 
@@ -60,20 +61,16 @@ class Veiculos(db.Model):
    marca = db.Column(db.String(50), nullable=False)
    modelo = db.Column(db.String(50), nullable=False)
    ano = db.Column(db.Integer, nullable=False)
-   preco = db.Column(db.Float, nullable=False)
+   diária = db.Column(db.Float, nullable=False)
+   tipo = db.Column(db.String(20), nullable=False)
 
 
 class add_Veiculo_Form(FlaskForm):
    marca = StringField('Marca', validators=[InputRequired(message="Marca é obrigatória"), Length(max=50)])
    modelo = StringField('Modelo', validators=[InputRequired(message="Modelo é obrigatório"), Length(max=50)])
    ano = IntegerField('Ano', validators=[InputRequired(message="Ano é obrigatório")])
-   preco = FloatField('Preço', validators=[InputRequired(message="Preço é obrigatório")])
+   diária = FloatField('Diária', validators=[InputRequired(message="Diária é obrigatória")])
+   tipo = SelectField('Tipo', choices=[('Gold', 'Gold'), ('Silver', 'Silver'), ('Econômico', 'Econômico')])
+
    submit = SubmitField('Adicionar Veículo')
 
-
-class Reservation(db.Model):
-   id = db.Column(db.Integer, primary_key=True)
-   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-   veiculo_id = db.Column(db.Integer, db.ForeignKey('veiculos.id'), nullable=False)
-   start_date = db.Column(db.Date, nullable=False)
-   end_date = db.Column(db.Date, nullable=False)
