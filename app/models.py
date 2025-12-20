@@ -1,5 +1,7 @@
+from sqlalchemy import Enum
 from app.database import db
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
+from flask import abort
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField, SelectField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -50,6 +52,7 @@ class LoginFormClient(FlaskForm):
 
 
 class LoginFormAdmin(FlaskForm):
+   company_name = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Company Name'})
    nipc = StringField(validators=[InputRequired(), Length(min=9, max=9)], render_kw={'placeholder': 'Username'})
    password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={'placeholder': 'Password'})
    submit = SubmitField('Login')
@@ -58,11 +61,19 @@ class LoginFormAdmin(FlaskForm):
 
 class Veiculos(db.Model):
    id = db.Column(db.Integer, primary_key=True)
+   tipo = db.Column(Enum('Gold', 'Silver', 'Econômico', name='tipo_enum'), nullable=False)
    marca = db.Column(db.String(50), nullable=False)
    modelo = db.Column(db.String(50), nullable=False)
    ano = db.Column(db.Integer, nullable=False)
    diária = db.Column(db.Float, nullable=False)
-   tipo = db.Column(db.String(20), nullable=False)
+   categoria = db.Column(db.String(20), nullable=False)
+   ultima_inspeção = db.Column(db.Date, nullable=False)
+   proxima_inspeção = db.Column(db.Date, nullable=False)
+   alugado = db.Column(db.Boolean, nullable=False, default=False)
+
+
+
+
 
 
 class add_Veiculo_Form(FlaskForm):
@@ -74,3 +85,22 @@ class add_Veiculo_Form(FlaskForm):
 
    submit = SubmitField('Adicionar Veículo')
 
+
+def client_required(func):
+   def wrapper(*args, **kwargs):
+      if not isinstance(current_user, Client):
+         abort(403)
+      return func(*args, **kwargs)
+   wrapper.__name__ = func.__name__
+   return wrapper
+
+
+
+def admin_required(func):
+   def wrapper(*arg, **kwargs):
+      if not isinstance(current_user, Admin):
+         abort(403)
+      return  func(*arg, **kwargs)
+   wrapper.__name__ = func.__name__
+   return wrapper
+      

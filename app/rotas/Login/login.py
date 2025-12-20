@@ -22,7 +22,7 @@ def login_choice():
 def login_admin():
    form = LoginFormAdmin()
    if form.validate_on_submit():
-       user = Admin.query.filter_by(username=form.username.data).first()
+       user = Admin.query.filter_by(company_name=form.company_name.data).first()
        if user and bcrypt.check_password_hash(user.password, form.password.data):
            login_user(user)
            return redirect('dashboards')
