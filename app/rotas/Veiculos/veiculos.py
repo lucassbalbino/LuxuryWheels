@@ -19,11 +19,12 @@ def add_veiculo():
     form = add_Veiculo_Form()
     if form.validate_on_submit():
         new_veiculo = Veiculos(
+            tipo=form.tipo.data,
             marca=form.marca.data,
             modelo=form.modelo.data,
             ano=form.ano.data,
             diária=form.diária.data,
-            tipo=form.tipo.data,
+            categoria=form.categoria.data,
             ultima_inspeção=form.ultima_inspeção.data,
             proxima_inspeção=form.proxima_inspeção.data,
             manuntenção=form.manutenção.data,

@@ -4,7 +4,9 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from app.models import Client, Admin
 from app.database import db
+from flask_migrate import Migrate
 import os
+
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -26,7 +28,7 @@ def create_app():
    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'database', 'database.db')}"
    app.config['SECRET_KEY'] = 'LuxuryWheelsSecretKey'
 
-
+   migrate = Migrate(app, db)
 
    client_login_manager.init_app(app)
    admin_login_manager.init_app(app)

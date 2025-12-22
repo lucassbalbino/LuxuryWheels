@@ -5,8 +5,12 @@ from flask import abort
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField, SelectField
 from wtforms.validators import InputRequired, Length, ValidationError
+from datetime import datetime as dt
+
 
 class Client(db.Model, UserMixin):
+   __table_args__ = {'extend_existing': True}
+   __tablename__ = 'client'
    id = db.Column(db.Integer, primary_key=True)
    username = db.Column(db.String(20), nullable=False, unique=True)
    password = db.Column(db.String(50), nullable=False)
@@ -14,6 +18,8 @@ class Client(db.Model, UserMixin):
 
    
 class Admin(db.Model, UserMixin):
+   __table_args__ = {'extend_existing': True}
+   __tablename__ = 'admin'
    id = db.Column(db.Integer, primary_key=True)
    NIPC = db.Column(db.String(20), nullable=False, unique=True)
    company_name = db.Column(db.String(50), nullable=False)
@@ -60,6 +66,8 @@ class LoginFormAdmin(FlaskForm):
 
 
 class Veiculos(db.Model):
+   __table_args__ = {'extend_existing': True}
+   __tablename__ = 'veiculos'
    id = db.Column(db.Integer, primary_key=True)
    tipo = db.Column(Enum('Gold', 'Silver', 'Econômico', name='tipo_enum'), nullable=False)
    marca = db.Column(db.String(50), nullable=False)
@@ -69,7 +77,27 @@ class Veiculos(db.Model):
    categoria = db.Column(db.String(20), nullable=False)
    ultima_inspeção = db.Column(db.Date, nullable=False)
    proxima_inspeção = db.Column(db.Date, nullable=False)
+   em_manuntenção = db.Column(db.Boolean, nullable=False, default=False)
    alugado = db.Column(db.Boolean, nullable=False, default=False)
+   legalização = db.Column(db.Date, nullable=False)
+   valor_legalização = db.Column(Enum('250', '150', name='tipo_enum'), nullable=False)
+
+
+
+class Reservas(db.Model):
+   __table_args__ = {'extend_existing': True}
+   __tablename__ = 'reservas'
+   id = db.Column(db.Integer, primary_key=True)
+   client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
+   veiculo_id = db.Column(db.Integer, db.ForeignKey('veiculos.id'), nullable=False)
+   data_inicio = db.Column(db.Date, nullable=False)
+   data_fim = db.Column(db.Date, nullable=False)
+   total = db.Column(db.Float, nullable=False)
+   metodo_pagamento = db.Column(db.String(20), nullable=False)
+
+   reservar_veiculo = db.relationship('Veiculos', backref='reservas', lazy=True)
+
+
 
 
 
@@ -86,6 +114,10 @@ class add_Veiculo_Form(FlaskForm):
    submit = SubmitField('Adicionar Veículo')
 
 
+class nova_reserva(FlaskForm):
+   pass
+
+
 def client_required(func):
    def wrapper(*args, **kwargs):
       if not isinstance(current_user, Client):
@@ -97,10 +129,12 @@ def client_required(func):
 
 
 def admin_required(func):
-   def wrapper(*arg, **kwargs):
+   def wrapper(*args, **kwargs):
       if not isinstance(current_user, Admin):
          abort(403)
-      return  func(*arg, **kwargs)
+      return  func(*args, **kwargs)
    wrapper.__name__ = func.__name__
    return wrapper
       
+def nova_reserva(Form):
+   pass
