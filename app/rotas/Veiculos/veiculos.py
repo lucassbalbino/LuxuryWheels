@@ -44,6 +44,7 @@ def del_veiculo():
 
 
 @veiculos_bp.route('/editar_veiculo/<int:id>', methods=['GET', 'POST'])
+@admin_required
 def editar_veiculo(id):
    veiculo = Veiculos.query.get_or_404(id)
    form = edit_Veiculo_Form(obj=veiculo)
