@@ -8,7 +8,7 @@
 </head>
 <div class="form-container">
 	<p class="title">Login</p>
-	<form class="form" method="POST" action="/">
+	<form class="form" method="POST" action="/login_cliente">
       {{ form.hidden_tag() }}
 		<div class="input-group">
 			<label for="username">Username</label>
@@ -19,8 +19,8 @@
 			<label for="password">Password</label>
          {{ form.password(class="input") }}
 			<br><br>
-		</div>
-      <!-- <button type="submit" class="sign">Sign in</button> -->
+		</div class="button-group">
+   
       {{ form.submit(class="sign") }}
 		
 	</form>

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 from app.database import db, bcrypt, admin_login_manager, client_login_manager
 from app.models import LoginFormClient, LoginFormAdmin, Client, Admin
 
@@ -34,6 +34,7 @@ def login_admin():
 def login_cliente():
    form = LoginFormClient()
    if form.validate_on_submit():
+     
        user = Client.query.filter_by(username=form.username.data).first()
        if user and bcrypt.check_password_hash(user.password, form.password.data):
            login_user(user)

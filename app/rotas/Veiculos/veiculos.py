@@ -45,8 +45,9 @@ def del_veiculo():
 
 @veiculos_bp.route('/editar_veiculo/<int:id>', methods=['GET', 'POST'])
 def editar_veiculo(id):
-   form = edit_Veiculo_Form()
-   veiculo = Veiculos.query.get(id)
+   veiculo = Veiculos.query.get_or_404(id)
+   form = edit_Veiculo_Form(obj=veiculo)
+
    if form.validate_on_submit():
        veiculo.tipo = form.tipo.data
        veiculo.marca = form.marca.data
@@ -62,4 +63,4 @@ def editar_veiculo(id):
        veiculo.alugado = form.alugado.data
        db.session.commit()
        return redirect(url_for('veiculos.display_veiculos'))
-   return render_template('edit_veiculo.html', form=form)
+   return render_template('editar_veiculo.html', form=form, veiculo=veiculo)
