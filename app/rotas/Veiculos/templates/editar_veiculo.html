@@ -6,8 +6,8 @@
    <title>Document</title>
 </head>
 <body>
-   <h1>Adicionar Veículo</h1>
-   <form method="POST" action="/add_veiculo">
+   <h1>Editar Veículo {{veiculo.modelo}}</h1>
+   <form method="POST" action="/editar_veiculo/{{ veiculo.id }}">
       {{ form.hidden_tag() }}
       <div>
          <label for="tipo">Tipo:</label>
@@ -54,8 +54,11 @@
          {{ form.valor_legalizaçao(class="input") }}
       </div>
       <div>
+         <label for="alugado">Alugado:</label>
+         {{ form.alugado(class="input") }}
+      </div>
+      <div>
          {{ form.submit(class="sign") }}
       </div>
-   </form>
 </body>
 </html>

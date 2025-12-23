@@ -3,7 +3,7 @@ from app.database import db
 from flask_login import UserMixin, current_user
 from flask import abort
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, StringField, PasswordField, SubmitField, IntegerField, FloatField, SelectField
+from wtforms import BooleanField, StringField, PasswordField, SubmitField, IntegerField, FloatField, SelectField, DateField
 from wtforms.validators import InputRequired, Length, ValidationError
 from datetime import datetime as dt
 
@@ -114,15 +114,30 @@ class add_Veiculo_Form(FlaskForm):
    ano = IntegerField('Ano', validators=[InputRequired(message="Ano é obrigatório")])
    diaria = FloatField('Diária', validators=[InputRequired(message="Diária é obrigatória")])
    categoria = SelectField('Tipo', choices=[('Moto', 'Moto'), ('Carro', 'Carro')])
-   ultima_inspeçao = StringField('Última Inspeção', validators=[InputRequired(message="Última Inspeção é obrigatória")])
-   proxima_inspeçao = StringField('Próxima Inspeção', validators=[InputRequired(message="Próxima Inspeção é obrigatória")])
+   ultima_inspeçao = DateField('Última Inspeção', validators=[InputRequired(message="Última Inspeção é obrigatória")])
+   proxima_inspeçao = DateField('Próxima Inspeção', validators=[InputRequired(message="Próxima Inspeção é obrigatória")])
    em_manutençao = BooleanField('Em Manutenção')
+   legalizaçao = DateField('Data de Legalização', validators=[InputRequired(message="Data de Legalização é obrigatória")])
    valor_legalizaçao = FloatField('Valor Legalização', validators=[InputRequired(message="Valor Legalização é obrigatório")])
 
-   
-
-
    submit = SubmitField('Adicionar Veículo')
+
+
+class edit_Veiculo_Form(FlaskForm):
+   tipo = SelectField('Tipo', choices=[('Gold', 'Gold'), ('Silver', 'Silver'), ('Econômico', 'Econômico')])
+   marca = StringField('Marca', validators=[InputRequired(message="Marca é obrigatória"), Length(max=50)])
+   modelo = StringField('Modelo', validators=[InputRequired(message="Modelo é obrigatório"), Length(max=50)])
+   ano = IntegerField('Ano', validators=[InputRequired(message="Ano é obrigatório")])
+   diaria = FloatField('Diária', validators=[InputRequired(message="Diária é obrigatória")])
+   categoria = SelectField('Tipo', choices=[('Moto', 'Moto'), ('Carro', 'Carro')])
+   ultima_inspeçao = DateField('Última Inspeção', validators=[InputRequired(message="Última Inspeção é obrigatória")])
+   proxima_inspeçao = DateField('Próxima Inspeção', validators=[InputRequired(message="Próxima Inspeção é obrigatória")])
+   em_manutençao = BooleanField('Em Manutenção')
+   legalizaçao = DateField('Data de Legalização', validators=[InputRequired(message="Data de Legalização é obrigatória")])
+   valor_legalizaçao = FloatField('Valor Legalização', validators=[InputRequired(message="Valor Legalização é obrigatório")])
+   alugado = BooleanField('Alugado')
+
+   submit = SubmitField('Atualizar Veículo')
 
 
 class nova_reserva(FlaskForm):

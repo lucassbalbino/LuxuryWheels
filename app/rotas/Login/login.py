@@ -37,7 +37,8 @@ def login_cliente():
        user = Client.query.filter_by(username=form.username.data).first()
        if user and bcrypt.check_password_hash(user.password, form.password.data):
            login_user(user)
-           return redirect('dashboards')
+           return redirect(url_for('veiculos.display_veiculos'))
+       
 
    return render_template('login_cliente.html', form=form)
 
@@ -45,4 +46,4 @@ def login_cliente():
 @login_bp.route('/logout', methods=['GET', 'POST'])
 def logout():
    logout_user()
-   return redirect(url_for('register.register_choice'))
+   return redirect(url_for('login.login_choice'))

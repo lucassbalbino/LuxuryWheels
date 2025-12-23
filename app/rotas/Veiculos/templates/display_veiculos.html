@@ -13,12 +13,13 @@
            <th>Ano</th>
            <th>Diaria</th>
        </tr>
-       {% for v in veiculos %}
+       {% for v in veiculo %}
        <tr>
            <td>{{ v.marca }}</td>
            <td>{{ v.modelo }}</td>
            <td>{{ v.ano }}</td>
            <td>{{ v.diaria }}</td>
+           <a href="/editar_veiculo/{{ v.id }}">Deletar</a>
          
        </tr>
        {% endfor %}
