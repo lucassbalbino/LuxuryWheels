@@ -10,7 +10,7 @@ veiculos_bp = Blueprint('veiculos', __name__, template_folder='templates')
 @veiculos_bp.route('/display_veiculos')
 @client_required
 def display_veiculos():
-    veiculo = Veiculos.query.all()
+    veiculo = Veiculos.query.filter_by(alugado=False, em_manutenção=False).all()
     return render_template('display_veiculos.html', veiculo=veiculo)
 
 @veiculos_bp.route('/add_veiculo', methods=['GET', 'POST'])
@@ -23,13 +23,12 @@ def add_veiculo():
             marca=form.marca.data,
             modelo=form.modelo.data,
             ano=form.ano.data,
-            diária=form.diária.data,
+            diaria=form.diaria.data,
             categoria=form.categoria.data,
-            ultima_inspeção=form.ultima_inspeção.data,
-            proxima_inspeção=form.proxima_inspeção.data,
-            manuntenção=form.manutenção.data,
-            legalização=form.legalização.data,
-            alugado=form.alugado.data
+            ultima_inspeçao=form.ultima_inspeçao.data,
+            proxima_inspeçao=form.proxima_inspeçao.data,
+            em_manutençao=form.em_manutençao.data,
+            valor_legalizaçao=form.valor_legalizaçao.data,
         )
         db.session.add(new_veiculo)
         db.session.commit()

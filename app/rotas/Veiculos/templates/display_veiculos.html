@@ -8,19 +8,18 @@
 <body>
    <table border="1">
        <tr>
-           <th>ID</th>
            <th>Marca</th>
            <th>Modelo</th>
            <th>Ano</th>
-           <th>Placa</th>
+           <th>Diaria</th>
        </tr>
-       {% for v in veiculo %}
+       {% for v in veiculos %}
        <tr>
-           <td>{{ v.id }}</td>
            <td>{{ v.marca }}</td>
            <td>{{ v.modelo }}</td>
            <td>{{ v.ano }}</td>
-           <td>{{ v.placa }}</td>
+           <td>{{ v.diaria }}</td>
+         
        </tr>
        {% endfor %}
 </body>

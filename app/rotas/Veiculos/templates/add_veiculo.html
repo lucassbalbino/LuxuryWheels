@@ -11,19 +11,43 @@
       {{ form.hidden_tag() }}
       <div>
          <label for="marca">Marca:</label>
+         {{ form.tipo(class="input") }}
+      </div>
+      <div>
+         <label for="marca">Marca:</label>
          {{ form.marca(class="input") }}
       </div>
       <div>
-         <label for="modelo">Modelo:</label>
+         <label for="marca">Marca:</label>
          {{ form.modelo(class="input") }}
       </div>
       <div>
-         <label for="ano">Ano:</label>
+         <label for="marca">Marca:</label>
          {{ form.ano(class="input") }}
       </div>
       <div>
-         <label for="preco">Preço:</label>
-         {{ form.preco(class="input") }}
+         <label for="modelo">Modelo:</label>
+         {{ form.diaria(class="input") }}
+      </div>
+      <div>
+         <label for="Categoria">Categoria:</label>
+         {{ form.categoria(class="input") }}
+      </div>
+      <div>
+         <label for="ultima inspeção">Última Inspeção:</label>
+         {{ form.ultima_inspeçao(class="input") }}
+      </div>
+      <div>
+         <label for="proxima inspeção">Próxima Inspeção:</label>
+         {{ form.proxima_inspeçao(class="input") }}
+      </div>
+      <div>
+         <label for="em manutenção">Em Manutenção:</label>
+         {{ form.em_manutençao(class="input") }}
+      </div>
+      <div> 
+         <label for="Valor Legalização">Valor Legalização:</label>
+         {{ form.valor_legalizaçao(class="input") }}
       </div>
       <div>
          {{ form.submit(class="sign") }}
