@@ -60,9 +60,10 @@
       <div>
          {{ form.submit(class="sign") }}
       </div>
+   </form>
    <form method="POST" action="{{ url_for('veiculos.deletar_veiculo', id=veiculo.id) }}">
       <button type="submit">Deletar</button>
    </form>
-   <p>Url para deletar: {{ url_for('veiculos.deletar_veiculo', id=veiculo.id) }}</p>
+
 </body>
 </html>

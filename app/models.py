@@ -15,6 +15,7 @@ class Client(db.Model, UserMixin):
    id = db.Column(db.Integer, primary_key=True)
    username = db.Column(db.String(20), nullable=False, unique=True)
    password = db.Column(db.String(50), nullable=False)
+   clientes = db.relationship('Reservas', back_populates='cliente')
 
 
    
@@ -82,6 +83,7 @@ class Veiculos(db.Model):
    alugado = db.Column(db.Boolean, nullable=False, default=False)
    legalizaçao = db.Column(db.Date, nullable=False)
    valor_legalizaçao = db.Column(db.Float, nullable=False)
+   reservas = db.relationship('Reservas', back_populates='veiculo')
 
 
 
@@ -96,9 +98,15 @@ class Reservas(db.Model):
    total = db.Column(db.Float, nullable=False)
    metodo_pagamento = db.Column(db.String(20), nullable=False)
 
-   cliente = db.relationship('Client', backref='clientes', lazy=True)
-   veiculo = db.relationship('Veiculos', backref='veiculos_disponiveis', lazy=True)
-   reservar_veiculo = db.relationship('Veiculos', backref='todas_reservas', lazy=True)
+   cliente = db.relationship(
+      'Client', 
+      back_populates='clientes', 
+      lazy='joined')
+   veiculo = db.relationship(
+      'Veiculos', 
+      back_populates='reservas', 
+      lazy='joined')
+  
 
 
 
