@@ -6,7 +6,7 @@ dashboard_bp = Blueprint('dashboard', __name__, template_folder='templates')
 
 @dashboard_bp.route('/dashboards')
 @admin_required
-def home():
+def dashboards():
 
    total_veiculos = Veiculos.query.count()
    

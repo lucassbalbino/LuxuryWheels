@@ -3,23 +3,22 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>DISPLAY VEICULOS</title>
+   <title>Veiculos</title>
 </head>
 <body>
    <table border="1">
        <tr>
-           <th>Marca</th>
+           <th>Marcas</th>
            <th>Modelo</th>
            <th>Ano</th>
            <th>Diaria</th>
        </tr>
-       {% for v in veiculo %}
+       {% for v in veiculos %}
        <tr>
            <td>{{ v.marca }}</td>
            <td>{{ v.modelo }}</td>
            <td>{{ v.ano }}</td>
            <td>{{ v.diaria }}</td>
-           <td><a href="/editar_veiculo/{{ v.id }}">Editar</a></td>
             
        </tr>
        {% endfor %}

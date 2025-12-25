@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_wtf import FlaskForm
 from app.models import Veiculos
 from app.database import db
@@ -9,8 +9,8 @@ veiculos_bp = Blueprint('veiculos', __name__, template_folder='templates')
 
 @veiculos_bp.route('/display_veiculos')
 def display_veiculos():
-    veiculo = Veiculos.query.filter_by(alugado=False, em_manutençao=False).all()
-    return render_template('display_veiculos.html', veiculo=veiculo)
+    veiculos = Veiculos.query.filter_by(alugado=False, em_manutençao=False).all()
+    return render_template('display_veiculos.html', veiculos=veiculos)
 
 @veiculos_bp.route('/add_veiculo', methods=['GET', 'POST'])
 @admin_required
@@ -37,11 +37,6 @@ def add_veiculo():
 
 
 
-@veiculos_bp.route('/del_veiculo', methods=['POST'])
-def del_veiculo():
-    # Lógica para deletar um veículo
-    pass
-
 
 @veiculos_bp.route('/editar_veiculo/<int:id>', methods=['GET', 'POST'])
 @admin_required
@@ -63,5 +58,40 @@ def editar_veiculo(id):
        veiculo.valor_legalizaçao = form.valor_legalizaçao.data
        veiculo.alugado = form.alugado.data
        db.session.commit()
-       return redirect(url_for('veiculos.display_veiculos'))
+       return redirect(url_for('veiculos.display_veiculos_admin'))
    return render_template('editar_veiculo.html', form=form, veiculo=veiculo)
+
+@veiculos_bp.route('/deletar_veiculo/<int:id>', methods=['POST'])
+@admin_required
+def deletar_veiculo(id):
+   veiculo = Veiculos.query.get_or_404(id)
+   db.session.delete(veiculo)
+   db.session.commit()
+   flash('Veículo deletado com sucesso!', 'success')
+   return redirect(url_for('veiculos.display_veiculos_admin'))
+
+@veiculos_bp.route('/display_veiculos_admin')
+@admin_required
+def display_veiculos_admin():
+    veiculo = Veiculos.query.all()
+    return render_template('display_veiculos_admin.html', veiculo=veiculo)
+
+
+
+@veiculos_bp.route('/manutençao_veiculo/<int:id>', methods=['POST'])
+@admin_required
+def manutençao_veiculo(id):
+    veiculo = Veiculos.query.get_or_404(id)
+    veiculo.em_manutençao = True
+    db.session.commit()
+    flash('Veículo colocado em manutenção com sucesso!', 'success')
+    return redirect(url_for('veiculos.display_veiculos_admin'))
+
+@veiculos_bp.route('/concluir_manutençao_veiculo/<int:id>', methods=['POST'])
+@admin_required
+def concluir_manutençao_veiculo(id):
+    veiculo = Veiculos.query.get_or_404(id)
+    veiculo.em_manutençao = False
+    db.session.commit()
+    flash('Manutenção do veículo concluída com sucesso!', 'success')
+    return redirect(url_for('veiculos.display_veiculos_admin'))
