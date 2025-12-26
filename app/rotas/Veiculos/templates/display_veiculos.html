@@ -3,24 +3,23 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel ="stylesheet" href="/static/style_display.css">
    <title>Veiculos</title>
 </head>
 <body>
-   <table border="1">
-       <tr>
-           <th>Marcas</th>
-           <th>Modelo</th>
-           <th>Ano</th>
-           <th>Diaria</th>
-       </tr>
-       {% for v in veiculos %}
-       <tr>
-           <td>{{ v.marca }}</td>
-           <td>{{ v.modelo }}</td>
-           <td>{{ v.ano }}</td>
-           <td>{{ v.diaria }}</td>
-            
-       </tr>
-       {% endfor %}
+   <div class="card-container">
+      {% for veiculo in veiculos %}
+      <div class="car-card">
+         <img src="carro.jpg" alt="Nome do Carro" class="car-image">
+         <div class="car-details">
+             <h3 class="car-title">{{veiculo.marca}}</h3>
+             <p class="car-description">{{veiculo.modelo}}</p>
+             <div class="car-price">
+                 <span>{{veiculo.diaria}}</span> / dia
+             </div>
+             <a href="{{ url_for('alugar.alugar_veiculo', id=veiculo.id) }}" class="car-action">Alugar Agora</a>
+         </div>
+     </div>
+      {% endfor %}
 </body>
 </html>
