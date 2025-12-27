@@ -9,4 +9,4 @@ alugar_bp = Blueprint('alugar', __name__, template_folder='templates')
 @alugar_bp.route('/alugar_veiculo/<int:id>', methods=['GET', 'POST'])
 @client_required
 def alugar_veiculo(id):
-   return render_template('alugar_veiculo.html', veiculo_id=id)
+   return render_template(url_for('alugar.alugar_veiculo', id=id))

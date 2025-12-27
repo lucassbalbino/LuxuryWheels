@@ -1,7 +1,9 @@
+from functools import wraps
+from flask_migrate import current
 from sqlalchemy import Enum
 from app.database import db
 from flask_login import UserMixin, current_user
-from flask import abort
+from flask import abort, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, StringField, PasswordField, SubmitField, IntegerField, FloatField, SelectField, DateField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -15,6 +17,7 @@ class Client(db.Model, UserMixin):
    id = db.Column(db.Integer, primary_key=True)
    username = db.Column(db.String(20), nullable=False, unique=True)
    password = db.Column(db.String(50), nullable=False)
+   role = db.Column(db.String(10), default='client')
    clientes = db.relationship('Reservas', back_populates='cliente')
 
 
@@ -26,6 +29,7 @@ class Admin(db.Model, UserMixin):
    NIPC = db.Column(db.String(20), nullable=False, unique=True)
    company_name = db.Column(db.String(50), nullable=False)
    password = db.Column(db.String(50), nullable=False)
+   role = db.Column(db.String(10), nullable=False, default='admin')
    
 
 
@@ -157,19 +161,24 @@ class nova_reserva(FlaskForm):
 
 
 def client_required(func):
-   def wrapper(*args, **kwargs):
-      if not isinstance(current_user, Client):
-         abort(403)
+   @wraps(func)
+   def decorated_function(*args, **kwargs):
+      if not current_user.is_authenticated:
+         flash('Por favor, faça login para acessar esta página.', 'danger')
+         redirect(url_for('login.login_cliente'))
+      if current_user.role != 'client':
+         flash('Você não tem permissão para acessar esta página.', 'danger')
+         redirect(url_for('login.login_cliente'))
       return func(*args, **kwargs)
-   wrapper.__name__ = func.__name__
-   return wrapper
+     
+   return decorated_function
 
 
 
 def admin_required(func):
    def wrapper(*args, **kwargs):
       if not isinstance(current_user, Admin):
-         abort(403)
+         redirect(url_for('login.login_admin'))
       return  func(*args, **kwargs)
    wrapper.__name__ = func.__name__
    return wrapper

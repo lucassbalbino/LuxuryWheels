@@ -8,6 +8,7 @@ from app.models import add_Veiculo_Form, client_required, admin_required, edit_V
 veiculos_bp = Blueprint('veiculos', __name__, template_folder='templates')
 
 @veiculos_bp.route('/display_veiculos')
+@client_required
 def display_veiculos():
     veiculos = Veiculos.query.filter_by(alugado=False, em_manutençao=False).all()
     return render_template('display_veiculos.html', veiculos=veiculos)
