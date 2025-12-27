@@ -162,8 +162,8 @@ class nova_reserva(FlaskForm):
 
 
 class pesquisa_Veiculo_Form(FlaskForm):
-   tipo = SelectField('Tipo', choices=[('Todos', 'Todos'), ('Moto', 'Moto'), ('Carro', 'Carro')])
-   categoria = SelectField('Categoria', choices=[('Todas', 'Todas'), ('Gold', 'Gold'), ('Silver', 'Silver'), ('Econômico', 'Econômico')])
+   categoria = SelectField('Tipo', choices=[('Todos', 'Todos'), ('Moto', 'Moto'), ('Carro', 'Carro')])
+   tipo = SelectField('Categoria', choices=[('Todas', 'Todas'), ('Gold', 'Gold'), ('Silver', 'Silver'), ('Econômico', 'Econômico')])
    data_inicio = DateField('Data Início', validators=[InputRequired(message="Data de início é obrigatória")])
    data_fim = DateField('Data Fim', validators=[InputRequired(message="Data de fim é obrigatória")])
    submit = SubmitField('Pesquisar Veículo')
