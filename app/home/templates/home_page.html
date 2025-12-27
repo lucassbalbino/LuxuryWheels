@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <form action="{{ url_for('veiculos.display_veiculos') }}" method="GET">
+      {{ form.hidden_tag() }}
+      <div>
+         <label for="search">Search Vehicles:</label>
+         {{ form.tipo(class="input-choice") }}
+         {{ form.categoria(class="input-choice") }}
+         {{ form.data_inicio(class="input-date") }}
+         {{ form.data_fim(class="input-date") }}
+         {{ form.submit(class="sign") }}
+      </div>
+</body>
+</html>

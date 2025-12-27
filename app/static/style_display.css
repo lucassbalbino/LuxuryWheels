@@ -9,7 +9,7 @@
     margin: 15px;
     border: 1px solid #ddd; /* Borda leve */
     border-radius: 8px;
-    background: rgba(167, 139, 250, 1);
+    background: #ffffff;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombras suaves */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

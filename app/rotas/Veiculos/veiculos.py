@@ -1,17 +1,56 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_wtf import FlaskForm
-from app.models import Veiculos
+from app.models import Reservas, Veiculos, pesquisa_Veiculo_Form
 from app.database import db
 from app.models import add_Veiculo_Form, client_required, admin_required, edit_Veiculo_Form
-
+from datetime import datetime
 
 veiculos_bp = Blueprint('veiculos', __name__, template_folder='templates')
 
 @veiculos_bp.route('/display_veiculos')
 @client_required
 def display_veiculos():
-    veiculos = Veiculos.query.filter_by(alugado=False, em_manutençao=False).all()
-    return render_template('display_veiculos.html', veiculos=veiculos)
+    form = pesquisa_Veiculo_Form()
+    
+    # Captura os parâmetros
+    tipo_arg = request.args.get('tipo')
+    categoria_arg = request.args.get('categoria')
+    data_inicio = request.args.get('data_inicio')
+    data_fim = request.args.get('data_fim')
+
+    # 1. Query Base (Apenas não alugados e sem manutenção)
+    query = Veiculos.query.filter_by(alugado=False, em_manutençao=False)
+
+    # 2. Filtros Dinâmicos (Verifica se existe valor na URL antes de filtrar)
+    if tipo_arg and tipo_arg.strip():
+        # Filtra pelo tipo (ex: Carro) se foi passado na URL
+        query = query.filter(Veiculos.tipo.ilike(tipo_arg.strip()))
+    
+    if categoria_arg and categoria_arg.strip():
+        # Filtra pela categoria (ex: Gold) se foi passado na URL
+        query = query.filter(Veiculos.categoria.ilike(categoria_arg.strip()))
+
+    # 3. Filtro de Datas (Lógica de Disponibilidade)
+    if data_inicio and data_fim:
+        try:
+            dt_inicio = datetime.strptime(data_inicio, '%Y-%m-%d').date()
+            dt_fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
+        except ValueError:
+            return render_template('display_veiculos.html', veiculos=[], form=form, error="Data inválida.")
+
+        # Subquery para encontrar IDs de veículos ocupados nesse período
+        veiculos_ocupados = db.session.query(Reservas.veiculo_id).filter(
+            (Reservas.data_inicio <= dt_fim) & 
+            (Reservas.data_fim >= dt_inicio)
+        )
+        
+        # Adiciona à query principal: EXCLUIR veículos que estão na lista de ocupados
+        query = query.filter(~Veiculos.id.in_(veiculos_ocupados))
+
+    # 4. Executa a query final (APENAS UMA VEZ)
+    veiculos_disponiveis = query.all()
+
+    return render_template('display_veiculos.html', veiculos=veiculos_disponiveis, form=form)
 
 @veiculos_bp.route('/add_veiculo', methods=['GET', 'POST'])
 @admin_required

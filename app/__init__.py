@@ -6,6 +6,7 @@ from app.models import Client, Admin
 from app.database import db
 from flask_migrate import Migrate
 import os
+from datetime import timedelta
 
 
 
@@ -27,6 +28,7 @@ def create_app():
    app = Flask(__name__)
    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'database', 'database.db')}"
    app.config['SECRET_KEY'] = 'LuxuryWheelsSecretKey'
+   app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7)  # Duração do cookie de "lembrar-me" em segundos
 
    migrate = Migrate(app, db)
 
@@ -38,12 +40,14 @@ def create_app():
    from app.rotas.Dashboard.dashboard import dashboard_bp
    from app.rotas.Register.register import register_bp  
    from app.rotas.Alugar.alugar import alugar_bp 
+   from app.home.home import home_bp
 
    app.register_blueprint(register_bp)
    app.register_blueprint(veiculos_bp)
    app.register_blueprint(login_bp)
    app.register_blueprint(dashboard_bp)
    app.register_blueprint(alugar_bp)
+   app.register_blueprint(home_bp)
    db.init_app(app)
    return app
 

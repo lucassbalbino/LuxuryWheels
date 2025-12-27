@@ -3,7 +3,7 @@ from flask_migrate import current
 from sqlalchemy import Enum
 from app.database import db
 from flask_login import UserMixin, current_user
-from flask import abort, redirect, url_for, flash
+from flask import abort, redirect, render_template, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, StringField, PasswordField, SubmitField, IntegerField, FloatField, SelectField, DateField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -160,6 +160,16 @@ class nova_reserva(FlaskForm):
    submit = SubmitField('Reservar Veículo')
 
 
+
+class pesquisa_Veiculo_Form(FlaskForm):
+   tipo = SelectField('Tipo', choices=[('Todos', 'Todos'), ('Moto', 'Moto'), ('Carro', 'Carro')])
+   categoria = SelectField('Categoria', choices=[('Todas', 'Todas'), ('Gold', 'Gold'), ('Silver', 'Silver'), ('Econômico', 'Econômico')])
+   data_inicio = DateField('Data Início', validators=[InputRequired(message="Data de início é obrigatória")])
+   data_fim = DateField('Data Fim', validators=[InputRequired(message="Data de fim é obrigatória")])
+   submit = SubmitField('Pesquisar Veículo')
+
+
+
 def client_required(func):
    @wraps(func)
    def decorated_function(*args, **kwargs):
@@ -183,5 +193,3 @@ def admin_required(func):
    wrapper.__name__ = func.__name__
    return wrapper
       
-def nova_reserva(Form):
-   pass

@@ -24,7 +24,7 @@ def login_admin():
    if form.validate_on_submit():
        user = Admin.query.filter_by(company_name=form.company_name.data).first()
        if user and bcrypt.check_password_hash(user.password, form.password.data):
-           login_user(user)
+           login_user(user, remember=True)
            return redirect('dashboards')
 
    return render_template('login_admin.html', form=form)
@@ -37,8 +37,8 @@ def login_cliente():
      
        user = Client.query.filter_by(username=form.username.data).first()
        if user and bcrypt.check_password_hash(user.password, form.password.data):
-           login_user(user)
-           return redirect(url_for('veiculos.display_veiculos'))
+           login_user(user, remember=True)
+           return redirect(url_for('home.home_page'))
        
 
    return render_template('login_cliente.html', form=form)
