@@ -11,6 +11,7 @@ veiculos_bp = Blueprint('veiculos', __name__, template_folder='templates')
 @client_required
 def display_veiculos():
     form = pesquisa_Veiculo_Form()
+    dias = 0
     
     # Captura os parâmetros
     tipo_arg = request.args.get('tipo')
@@ -37,9 +38,9 @@ def display_veiculos():
             dt_fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
             dias = (dt_fim - dt_inicio).days
             if dias <= 0:
-                return render_template('display_veiculos.html', dias=dias, veiculos=[], form=form, error="Data de fim deve ser após a data de início.")
+                return render_template('display_veiculos.html', veiculos=[], form=form, error="Data de fim deve ser após a data de início.")
         except ValueError:
-            return render_template('display_veiculos.html', dias=dias, veiculos=[], form=form, error="Data inválida.")
+            return render_template('display_veiculos.html', veiculos=[], form=form, error="Data inválida.")
 
         # Subquery para encontrar IDs de veículos ocupados nesse período
         veiculos_ocupados = db.session.query(Reservas.veiculo_id).filter(
@@ -53,7 +54,7 @@ def display_veiculos():
     # 4. Executa a query final (APENAS UMA VEZ)
     veiculos_disponiveis = query.all()
 
-    return render_template('display_veiculos.html', dias=dias, veiculos=veiculos_disponiveis, form=form)
+    return render_template('display_veiculos.html', dias=dias,veiculos=veiculos_disponiveis, form=form)
 
 @veiculos_bp.route('/add_veiculo', methods=['GET', 'POST'])
 @admin_required

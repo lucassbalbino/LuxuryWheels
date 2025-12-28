@@ -12,11 +12,20 @@ reservar_bp = Blueprint('reservar', __name__, template_folder='templates')
 def reservar_veiculo(veiculo_id):
    veiculo = Veiculos.query.get_or_404(veiculo_id)
    data_inicio = request.args.get('data_inicio')
-   dt_inicio = dt.strptime(data_inicio, '%Y-%m-%d').date().days
    data_fim = request.args.get('data_fim')
-   dt_fim = dt.strptime(data_fim, '%Y-%m-%d').date().days
-   dias_total = dt_fim - dt_inicio
-   valor_total = dias_total * veiculo.diaria
+
+   try: 
+      dt_inicio = dt.strptime(data_inicio, '%Y-%m-%d').date()
+      dt_fim = dt.strptime(data_fim, '%Y-%m-%d').date()
+      dias_total = (dt_fim - dt_inicio).days
+      if dias_total <= 0:
+         flash('Data de fim deve ser após a data de início.', 'danger')
+         return redirect(url_for('veiculos.display_veiculos'))
+      valor_total = veiculo.diaria * dias_total
+   except ValueError:
+      flash('Data inválida.', 'danger')
+      return redirect(url_for('veiculos.display_veiculos'))
+
    try:
       checkout_session = stripe.checkout.Session.create(
          payment_method_types=['card', 'mbway'],
