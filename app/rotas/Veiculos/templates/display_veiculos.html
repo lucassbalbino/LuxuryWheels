@@ -15,7 +15,7 @@
          data-modelo="{{veiculo.modelo}}"
          data-diaria="{{veiculo.diaria}}"
          data-dias="{{dias}}"
-         data-pagamentourl="{{ url_for('reservar.reservar_veiculo', veiculo_id=veiculo.id) }}"
+         data-pagamentourl="{{ url_for('reservar.reservar_veiculo', veiculo_id=veiculo.id, data_inicio=request.args.get('data_inicio'), data_fim=request.args.get('data_fim'))}}"
          >
          <img src="carro.jpg" alt="Nome do Carro" class="car-image">
          <div class="car-details">

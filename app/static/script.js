@@ -12,7 +12,7 @@ function openModal(element){
    
       const btnReservar = document.getElementById('btn-reservar')
       if (btnReservar){
-          btnReservar.href = url  }
+          btnReservar.href = pagamentourl  }
    }
 
    
