@@ -1,4 +1,11 @@
 /* Container do Card */
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: "Outfit", sans-serif;
+}
+
 .car-card {
     display: flex;
     flex-direction: column;
@@ -58,20 +65,96 @@
 }
 
 /* Botão de ação */
-.car-action {
-    display: inline-block;
-    padding: 10px 15px;
-    background: #FF6F00; /* Cor principal do Sixt */
-    color: #fff;
-    font-size: 1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background 0.3s ease;
+
+
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: "Outfit", sans-serif;
 }
 
-/* Hover no botão */
-.car-action:hover {
-    background: #e65c00; /* Darker orange */
+body{
+   width: 100%;
+   height: 100vh;
+}
+
+.btn{
+   padding: 10px 25px;
+   display: inline;
+   background-color: tomato;
+   border-radius: 20px;
+   color: #fff;
+   font-size: 20px;
+   cursor: pointer;
+   transition: background-color 0.5s;
+
+   transform: translate(-50%, -50%);
+   z-index: 1;
+}
+
+.btn:hover{
+   background-color: #ff4c2c;
+}
+
+.modal-container{
+   width: 100vw;
+   height: 100vh;
+   position: fixed;
+   top: 0;
+   left: 0;
+   background-color: #0000004b;
+   z-index: 999;
+   align-items: center;
+   justify-content: center;
+   display: none;
+}
+
+.modal{
+   width: 60%;
+   min-width:400px;
+   min-height: 200px;
+   background-color: #ffffff62;
+   backdrop-filter: blur(10px);
+   padding: 50px;
+   border-radius: 10px;
+}
+
+.fechar{
+   position: absolute;
+   top: -10px;
+   right: -10px;
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   border: none;
+   background-color: #ff0000;
+   color: #fff;
+   font-weight: 700;
+   font-size: 14pt;
+   cursor: pointer;
+}
+
+.modal h1{
+   margin-bottom: 20px;
+}
+
+@keyframes animate-modal {
+   from{
+       opacity: 0;
+       transform: translate3d(0, -20px, 0);
+   }
+
+   to{
+       opacity: 1;
+       transform: translate3d(0, 0, 0);
+   }
+}
+
+.modal-container.mostrar{
+   display: flex;
+}
+
+.mostrar .modal{
+   animation: animate-modal .3s;
 }

@@ -40,7 +40,7 @@ def create_app():
    from app.rotas.Dashboard.dashboard import dashboard_bp
    from app.rotas.Register.register import register_bp  
    from app.rotas.Alugar.alugar import alugar_bp 
-   from app.home.home import home_bp
+   from app.rotas.home.home import home_bp
 
    app.register_blueprint(register_bp)
    app.register_blueprint(veiculos_bp)
