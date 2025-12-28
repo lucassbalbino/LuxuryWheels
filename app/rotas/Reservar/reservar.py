@@ -1,9 +1,14 @@
+from json import load
 from app.models import client_required, admin_required, Reservas, Veiculos, nova_reserva, db
 from flask_login import current_user
 import stripe
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from datetime import datetime as dt
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+stripe.api_key = os.environ.get('SECRET_API_KEY')
 
 reservar_bp = Blueprint('reservar', __name__, template_folder='templates')
 
@@ -28,7 +33,7 @@ def reservar_veiculo(veiculo_id):
 
    try:
       checkout_session = stripe.checkout.Session.create(
-         payment_method_types=['card', 'mbway'],
+         payment_method_types=['card'],
          phone_number_collection={
             'enabled': True,
          },
@@ -50,15 +55,15 @@ def reservar_veiculo(veiculo_id):
             'veiculo_id': veiculo.id,
             'data_inicio': dt_inicio,
             'data_fim': dt_fim,
-            'total_valor': valor_total,
+            'total': valor_total,
          },
-         success_url=url_for('dashboard.client_dashboard', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
-         cancel_url=url_for('veiculos.display_veiculos', _external=True),
+         success_url=url_for('reservar.sucesso_pagamento', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+         cancel_url=url_for('home.home_page', _external=True),
          
       )
    except:
       flash('Erro ao iniciar o pagamento. Por favor, tente novamente.', 'danger')
-      return redirect(url_for('veiculos.display_veiculos'))
+      return redirect(url_for('home.home_page'))
    return redirect(checkout_session.url, code=303)
 
 @reservar_bp.route('/sucesso_pagamento', methods=['GET'])
