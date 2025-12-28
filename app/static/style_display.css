@@ -19,6 +19,7 @@
     background: #ffffff;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombras suaves */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 /* Hover para o card */
@@ -111,19 +112,19 @@ body{
 }
 
 .modal{
-   width: 60%;
+   width: 90%;
+   height: auto;
    min-width:400px;
    min-height: 200px;
-   background-color: #ffffff62;
-   backdrop-filter: blur(10px);
-   padding: 50px;
+   background-color: #ffffff;
+   padding: 100px;
    border-radius: 10px;
 }
 
 .fechar{
    position: absolute;
-   top: -10px;
-   right: -10px;
+   top: -5px;
+   right: -5px;
    width: 30px;
    height: 30px;
    border-radius: 50%;
@@ -142,12 +143,12 @@ body{
 @keyframes animate-modal {
    from{
        opacity: 0;
-       transform: translate3d(0, -20px, 0);
+       transform: translateY(100vh);
    }
 
    to{
        opacity: 1;
-       transform: translate3d(0, 0, 0);
+       transform: translateY(0);
    }
 }
 
@@ -156,5 +157,5 @@ body{
 }
 
 .mostrar .modal{
-   animation: animate-modal .3s;
+   animation: animate-modal .8s;
 }

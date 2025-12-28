@@ -9,25 +9,38 @@
 <body>
    <div class="card-container">
       {% for veiculo in veiculos %}
-      <div class="car-card">
+      <div class="car-card" onclick="openModal()"
+         data-id="{{veiculo.id}}"
+         data-marca="{{veiculo.marca}}"
+         data-modelo="'{{veiculo.modelo}}"
+         data-diaria="{{veiculo.diaria}}"
+         data-dias="{{dias}}"
+         >
          <img src="carro.jpg" alt="Nome do Carro" class="car-image">
          <div class="car-details">
              <h3 class="car-title">{{veiculo.marca}}</h3>
              <p class="car-description">{{veiculo.modelo}}</p>
              <div class="car-price">
-                 <span>{{veiculo.diaria}}</span> / dia
-               
+                 <span>{{veiculo.diaria}} €</span> / dia
              </div>
-             <div onclick="openModal()" class="btn">Alugar</div>
+             <div class="car-total"> 
+               {{ veiculo.diaria * dias }} € total
+
          </div>
      </div>
       {% endfor %}
    <div id="modal-container" class="modal-container">
       <div class="modal">
-         <button class="fechar">Fechar</button>
+         <button class = 'fechar' id="fechar">X</button>
          <h1>Formulário de Aluguel</h1>
+         <p>ID do Veículo: <span id="modal-id"></span></p>
+         <p>Marca: <span id="modal-marca"></span></p>
+         <p>Modelo: <span id="modal-modelo"></span></p>
+         <p>Diária: <span id="modal-diaria"></span> €</p>
+
+         
       </div>
    </div>      
-   <script src="script.js"></script>
+   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

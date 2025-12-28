@@ -35,8 +35,11 @@ def display_veiculos():
         try:
             dt_inicio = datetime.strptime(data_inicio, '%Y-%m-%d').date()
             dt_fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
+            dias = (dt_fim - dt_inicio).days
+            if dias <= 0:
+                return render_template('display_veiculos.html', dias=dias, veiculos=[], form=form, error="Data de fim deve ser após a data de início.")
         except ValueError:
-            return render_template('display_veiculos.html', veiculos=[], form=form, error="Data inválida.")
+            return render_template('display_veiculos.html', dias=dias, veiculos=[], form=form, error="Data inválida.")
 
         # Subquery para encontrar IDs de veículos ocupados nesse período
         veiculos_ocupados = db.session.query(Reservas.veiculo_id).filter(
@@ -50,7 +53,7 @@ def display_veiculos():
     # 4. Executa a query final (APENAS UMA VEZ)
     veiculos_disponiveis = query.all()
 
-    return render_template('display_veiculos.html', veiculos=veiculos_disponiveis, form=form)
+    return render_template('display_veiculos.html', dias=dias, veiculos=veiculos_disponiveis, form=form)
 
 @veiculos_bp.route('/add_veiculo', methods=['GET', 'POST'])
 @admin_required
