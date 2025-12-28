@@ -10,8 +10,8 @@ function openModal(){
    })
 }
 
-btn.addEventListener('click', () => {
-   const {id, marca, modelo, diaria, dias} = btn.dataset
+car-card.addEventListener('click', () => {
+   const {id, marca, modelo, diaria, dias} = car-card.dataset
    document.getElementById('modal-id').innerText = id
    document.getElementById('modal-marca').innerText = marca
    document.getElementById('modal-modelo').innerText = modelo

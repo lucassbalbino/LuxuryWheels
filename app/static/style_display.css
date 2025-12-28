@@ -143,12 +143,12 @@ body{
 @keyframes animate-modal {
    from{
        opacity: 0;
-       transform: translateY(100vh);
+       transform: translate3d(0, 100vh, 0);
    }
 
    to{
        opacity: 1;
-       transform: translateY(0);
+       transform: translate3d(0, 0, 0);
    }
 }
 
