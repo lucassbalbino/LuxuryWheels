@@ -153,7 +153,7 @@ class edit_Veiculo_Form(FlaskForm):
 
 
 class nova_reserva(FlaskForm):
-
+   
    data_inicio = StringField('Data Início', validators=[InputRequired(message="Data de início é obrigatória")])
    data_fim = StringField('Data Fim', validators=[InputRequired(message="Data de fim é obrigatória")])
    metodo_pagamento = SelectField('Método de Pagamento', choices=[('Cartão de Crédito', 'Cartão de Crédito'), ('PayPal', 'PayPal'), ('Transferência Bancária', 'Transferência Bancária')])
