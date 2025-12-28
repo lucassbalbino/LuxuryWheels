@@ -9,12 +9,13 @@
 <body>
    <div class="card-container">
       {% for veiculo in veiculos %}
-      <div class="car-card" onclick="openModal()"
+      <div class="car-card" onclick="openModal(this)"
          data-id="{{veiculo.id}}"
          data-marca="{{veiculo.marca}}"
-         data-modelo="'{{veiculo.modelo}}"
+         data-modelo="{{veiculo.modelo}}"
          data-diaria="{{veiculo.diaria}}"
          data-dias="{{dias}}"
+         data-pagamentourl="{{ url_for('reservar.reservar_veiculo', veiculo_id=veiculo.id) }}"
          >
          <img src="carro.jpg" alt="Nome do Carro" class="car-image">
          <div class="car-details">
@@ -29,15 +30,16 @@
          </div>
      </div>
       {% endfor %}
+   </div>
    <div id="modal-container" class="modal-container">
       <div class="modal">
-         <button class = 'fechar' id="fechar">X</button>
+         <button class = 'fechar' id="fechar-modal">X</button>
          <h1>Formulário de Aluguel</h1>
          <p>ID do Veículo: <span id="modal-id"></span></p>
          <p>Marca: <span id="modal-marca"></span></p>
          <p>Modelo: <span id="modal-modelo"></span></p>
          <p>Diária: <span id="modal-diaria"></span> €</p>
-
+         <a href="" id="btn-reservar" class="btn-reservar">Reservar Agora</a>
          
       </div>
    </div>      

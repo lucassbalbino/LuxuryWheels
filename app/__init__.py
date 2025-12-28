@@ -39,14 +39,14 @@ def create_app():
    from app.rotas.Login.login import login_bp
    from app.rotas.Dashboard.dashboard import dashboard_bp
    from app.rotas.Register.register import register_bp  
-   from app.rotas.Alugar.alugar import alugar_bp 
+   from app.rotas.Reservar.reservar import reservar_bp 
    from app.rotas.home.home import home_bp
 
    app.register_blueprint(register_bp)
    app.register_blueprint(veiculos_bp)
    app.register_blueprint(login_bp)
    app.register_blueprint(dashboard_bp)
-   app.register_blueprint(alugar_bp)
+   app.register_blueprint(reservar_bp)
    app.register_blueprint(home_bp)
    db.init_app(app)
    return app
