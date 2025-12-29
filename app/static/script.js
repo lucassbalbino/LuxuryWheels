@@ -21,7 +21,7 @@ function openModal(element){
 
    // 4. Configura o evento de fechar
    modal.addEventListener('click', (e) =>{
-       if (e.target.id == 'modal-container' || e.target.id == "fechar-modal"){
+       if (e.target.id === 'modal-container' || e.target.id === "fechar-modal"){
            modal.classList.remove('mostrar')
            localStorage.fechaModal = 'modal-container'
        }

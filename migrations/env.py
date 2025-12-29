@@ -111,6 +111,3 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
-
-SECRET_API_KEY = ('pk_test_51Sj7PZIDdYyxcfd17if6icEjMxR6VtMtw2hjcuLnYqevJIIGsL9WqaxHa4bMppe9p1EaUfcbRAQLVMFN5SCpAlxJ00eswx9fzA')
-PUBLIC_API_KEY = ('pk_test_51Sj7PZIDdYyxcfd17if6icEjMxR6VtMtw2hjcuLnYqevJIIGsL9WqaxHa4bMppe9p1EaUfcbRAQLVMFN5SCpAlxJ00eswx9fzA')

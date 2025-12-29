@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-stripe.api_key = os.environ.get('SECRET_API_KEY')
+stripe.api_key = os.getenv('SECRET_API_KEY')
 
 reservar_bp = Blueprint('reservar', __name__, template_folder='templates')
 
@@ -42,7 +42,7 @@ def reservar_veiculo(veiculo_id):
                'price_data': {
                   'currency': 'eur',
                   'product_data': {
-                     'name': f'Reserva de {veiculo.marca} {veiculo.modelo} por {dias_total} dias',
+                     'name': f'Reserva de {veiculo.marca} {veiculo.modelo} por {dias_total} dia(s)',
                   },
                   'unit_amount': int(valor_total * 100),
                },
@@ -51,18 +51,18 @@ def reservar_veiculo(veiculo_id):
          ],
          mode='payment',
          metadata={
-            'client_id': current_user.id,
-            'veiculo_id': veiculo.id,
-            'data_inicio': dt_inicio,
-            'data_fim': dt_fim,
-            'total': valor_total,
+            'client_id': str(current_user.id),
+            'veiculo_id': str(veiculo.id),
+            'data_inicio': str(dt_inicio),
+            'data_fim': str(dt_fim),
+            'total': str(valor_total),
          },
          success_url=url_for('reservar.sucesso_pagamento', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
          cancel_url=url_for('home.home_page', _external=True),
          
       )
-   except:
-      flash('Erro ao iniciar o pagamento. Por favor, tente novamente.', 'danger')
+   except Exception as e:
+      print(f'Erro ao iniciar o pagamento. Por favor, tente novamente. {e}')
       return redirect(url_for('home.home_page'))
    return redirect(checkout_session.url, code=303)
 

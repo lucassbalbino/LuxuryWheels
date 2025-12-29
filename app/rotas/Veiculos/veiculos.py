@@ -23,11 +23,11 @@ def display_veiculos():
     query = Veiculos.query.filter_by(alugado=False, em_manutençao=False)
 
     # 2. Filtros Dinâmicos (Verifica se existe valor na URL antes de filtrar)
-    if tipo_arg and tipo_arg.strip():
+    if tipo_arg and tipo_arg.strip() != 'Todos':
         # Filtra pelo tipo (ex: Carro) se foi passado na URL
         query = query.filter(Veiculos.tipo.ilike(tipo_arg.strip()))
     
-    if categoria_arg and categoria_arg.strip():
+    if categoria_arg and categoria_arg.strip() != 'Todas':
         # Filtra pela categoria (ex: Gold) se foi passado na URL
         query = query.filter(Veiculos.categoria.ilike(categoria_arg.strip()))
 
