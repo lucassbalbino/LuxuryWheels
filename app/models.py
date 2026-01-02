@@ -151,7 +151,10 @@ class edit_Veiculo_Form(FlaskForm):
 
    submit = SubmitField('Atualizar Veículo')
 
-
+class edit_Admin_Form(FlaskForm):
+   NIPC = StringField('NIPC', validators=[InputRequired(message='NIPC é obrigatório')])
+   company_name = StringField('Nome da Empresa', validators=[InputRequired('O Nome da Empresa é obrigatório ')])
+   submit = SubmitField('Atualizar Admin')
 class nova_reserva(FlaskForm):
    
    data_inicio = StringField('Data Início', validators=[InputRequired(message="Data de início é obrigatória")])
@@ -162,8 +165,8 @@ class nova_reserva(FlaskForm):
 
 
 class pesquisa_Veiculo_Form(FlaskForm):
-   tipo = SelectField('Tipo', choices=[('Todos', 'Todos'), ('Moto', 'Moto'), ('Carro', 'Carro')])
-   categoria = SelectField('Categoria', choices=[('Todas', 'Todas'), ('Gold', 'Gold'), ('Silver', 'Silver'), ('Econômico', 'Econômico')])
+   categoria = SelectField('Categoria', choices=[('Todos', 'Todos'), ('Moto', 'Moto'), ('Carro', 'Carro')])
+   tipo = SelectField('Tipo', choices=[('Todas', 'Todas'), ('Gold', 'Gold'), ('Silver', 'Silver'), ('Econômico', 'Econômico')])
    data_inicio = DateField('Data Início', validators=[InputRequired(message="Data de início é obrigatória")])
    data_fim = DateField('Data Fim', validators=[InputRequired(message="Data de fim é obrigatória")])
    submit = SubmitField('Pesquisar Veículo')

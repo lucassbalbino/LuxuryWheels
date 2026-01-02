@@ -3,12 +3,25 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{{ url_for('static', filename='style_dashboard.css') }}">
+
    <title>Document</title>
 </head>
 <body>
-   <h1>Dashboard Page</h1>
-   <a href="{{ url_for('login.logout') }}">Logout</a>
-   <a href="{{ url_for('veiculos.add_veiculo') }}">Add Vehicle</a>
-   <a href="{{ url_for('veiculos.display_veiculos_admin') }}">View Vehicles</a>
+   <header>
+      <div class="interface">
+         <section class="logo-cabecalho">
+            <a href="{{url_for('dashboard.dashboards')}}"> <img src="{{ url_for('static', filename='imgs/logo-cabecalho.webp') }}" alt="Logotipo do Site"> </a>
+         </section>
+         <nav class="menu-desktop">
+            <ul>
+               <li><a href="{{ url_for('veiculos.display_veiculos') }}">Veículos</a></li>
+               <li><a href="{{ url_for('dashboard.logout') }}">Logout</a></li>
+               <li><a hreF="{{url_for('dashboard.admin_reservas', admin_id=admin.id)}}">Reservas</a></li>
+               <li><a hreF="{{url_for('dashboard.admin_edit', admin_id=admin.id)}}">Informações</a></li>
+            </ul>
+         </nav>
+      </div>
+   </header>
 </body>
 </html>
