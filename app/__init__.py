@@ -1,53 +1,36 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
-from app.models import Client, Admin
-from app.database import db
-from flask_migrate import Migrate
-import os
-from datetime import timedelta
+from config import Config
+from app.extensions import db, bcrypt, migrate, login_manager
 
-
-
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-
-bcrypt = Bcrypt()
-client_login_manager = LoginManager()
-admin_login_manager = LoginManager()
-
-@client_login_manager.user_loader
-def load_client(client_id):
-   return Client.query.get(int(client_id))
-
-@admin_login_manager.user_loader
-def load_admin(admin_id):
-   return Admin.query.get(int(admin_id))
 
 def create_app():
-   app = Flask(__name__)
-   app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'database', 'database.db')}"
-   app.config['SECRET_KEY'] = 'LuxuryWheelsSecretKey'
-   app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=7)  # Duração do cookie de "lembrar-me" em segundos
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
-   migrate = Migrate(app, db)
+    # Initialize extensions
+    db.init_app(app)
+    bcrypt.init_app(app)
+    migrate.init_app(app, db)
+    login_manager.init_app(app)
 
-   client_login_manager.init_app(app)
-   admin_login_manager.init_app(app)
+    # User loader for Flask-Login
+    @login_manager.user_loader
+    def load_user(user_id):
+        from flask import session
+        from app.models import Client, Admin
+        user_type = session.get('user_type', 'client')
+        if user_type == 'admin':
+            return Admin.query.get(int(user_id))
+        return Client.query.get(int(user_id))
 
-   from app.rotas.Veiculos.veiculos import veiculos_bp
-   from app.rotas.Login.login import login_bp
-   from app.rotas.Dashboard.dashboard import dashboard_bp
-   from app.rotas.Register.register import register_bp  
-   from app.rotas.Reservar.reservar import reservar_bp 
-   from app.rotas.home.home import home_bp
+    # Register blueprints
+    from app.blueprints import login_bp, register_bp, dashboard_bp, home_bp, veiculos_bp, reservar_bp
+    app.register_blueprint(login_bp)
+    app.register_blueprint(register_bp)
+    app.register_blueprint(dashboard_bp)
+    app.register_blueprint(home_bp)
+    app.register_blueprint(veiculos_bp)
+    app.register_blueprint(reservar_bp)
 
-   app.register_blueprint(register_bp)
-   app.register_blueprint(veiculos_bp)
-   app.register_blueprint(login_bp)
-   app.register_blueprint(dashboard_bp)
-   app.register_blueprint(reservar_bp)
-   app.register_blueprint(home_bp)
-   db.init_app(app)
-   return app
+    return app
 
